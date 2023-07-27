@@ -1,0 +1,10 @@
+node_modules
+scenarios
+tempScenarios
+npm-debug.log
+coverage/
+logs/*
+.idea
+/etc/notifications/config.notifications.js
+/etc/config.notifications.js
+.DS_Store

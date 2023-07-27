@@ -1,0 +1,1 @@
+global.scenario.macros.digitalPidController({INPUT_TOPIC}, {SWITCH_TOPIC}, {PROPORTIONAL_GAIN}, {INTEGRAL_GAIN}, {DERIVATIVE_GAIN}, {SAMPLE_TIME});

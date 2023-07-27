@@ -1,0 +1,1 @@
+global.scenario.macros.lightingControl({SWITCH_TOPIC}, {MOTION_TOPIC}, {TRIGGER_MESSAGE}, {SHUTDOWN_TIME}, {LIGHTING_TOPIC});

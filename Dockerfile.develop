@@ -1,0 +1,7 @@
+FROM node:12.5-slim
+
+RUN apt-get update && apt-get -y install bash git
+
+WORKDIR /app
+
+CMD sh -c "[ ! -e ./etc/notifications/config.notifications.js ] && cp ./etc/config.notifications.example.js ./etc/notifications/config.notifications.js ; npm run nodemon"

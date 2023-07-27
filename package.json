@@ -1,0 +1,79 @@
+{
+    "author": "2Smart",
+    "dependencies": {
+        "babel-register": "^6.26.0",
+        "bluebird": "^3.7.0",
+        "chokidar": "^3.0.2",
+        "cron": "^1.8.2",
+        "cron-parser": "^2.15.0",
+        "fs-extra": "^8.1.0",
+        "homie-sdk": "github:2SmartCloud/2smart-standalone-homie-sdk",
+        "influx": "^5.6.2",
+        "livr": "^2.3.0",
+        "lodash": "^4.17.20",
+        "mqtt": "3.0.0",
+        "mysql2": "^1.7.0",
+        "nanoid": "^3.1.12",
+        "node-fetch": "^2.6.1",
+        "oauth": "^0.9.15",
+        "request": "^2.88.0",
+        "request-promise": "^4.2.4",
+        "sequelize": "^5.19.4",
+        "sunrise-sunset-js": "^2.1.2",
+        "underscore": "^1.9.1"
+    },
+    "description": "",
+    "devDependencies": {
+        "babel-eslint": "^10.1.0",
+        "eslint": "^7.15.0",
+        "eslint-config-webbylab": "^5.4.1",
+        "eslint-plugin-fetch": "0.0.1",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-jest": "^24.1.3",
+        "eslint-plugin-more": "^1.0.0",
+        "eslint-plugin-no-require-lodash": "^1.1.0",
+        "eslint-plugin-prefer-spread": "^1.0.3",
+        "eslint-plugin-react": "^7.21.5",
+        "eslint-plugin-security": "^1.4.0",
+        "jest": "^24.9.0",
+        "nodemon": "1.19.1",
+        "pre-commit": "^1.2.2"
+    },
+    "jest": {
+        "collectCoverage": false,
+        "collectCoverageFrom": [
+            "**/lib/**/*.js",
+            "!**/lib/controllers/*.js",
+            "!**/lib/models/utils.js",
+            "!**/lib/*.js",
+            "!**/node_modules/**"
+        ],
+        "globalSetup": "./tests/jestGlobalSetup.js",
+        "globalTeardown": "./tests/jestGlobalTeardown.js",
+        "setupFiles": [
+            "<rootDir>/tests/jestSetup.js"
+        ],
+        "testMatch": [
+            "**/tests/**/*.test.[jt]s?(x)"
+        ],
+        "verbose": true
+    },
+    "main": "serve.js",
+    "name": "scenario-runner",
+    "pre-commit": [
+        "test:lint"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:2SmartCloud/2smart-standalone-scenario-runner.git"
+    },
+    "scripts": {
+        "nodemon": "nodemon -L serve.js --ignore scenarios/ --ignore tempScenarios/",
+        "start": "node serve.js",
+        "test": "jest --runInBand --forceExit",
+        "test:audit": "npm audit",
+        "test:coverage": "npm run test -- --coverage",
+        "test:lint": "eslint lib/ tests/ app.js --ext js"
+    },
+    "version": "1.0.0"
+}

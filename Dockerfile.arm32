@@ -1,0 +1,16 @@
+FROM arm32v7/node:12-alpine
+
+WORKDIR /app
+
+COPY etc etc
+COPY lib lib
+COPY package.json package.json
+COPY package-lock.json package-lock.json
+COPY serve.js serve.js
+COPY app.js app.js
+
+RUN mkdir scenarios
+RUN npm i --production --unsafe-perm
+
+CMD sh -c "[ ! -e  ./etc/notifications/config.notifications.js ] && cp ./etc/config.notifications.example.js ./etc/notifications/config.notifications.js ; npm start"
+

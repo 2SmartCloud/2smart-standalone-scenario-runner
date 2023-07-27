@@ -1,0 +1,1 @@
+global.scenario.macros.mixedThermostat({TEMP_TOPIC}, {HEATING_SWITCH_TOPIC}, {COOLING_SWITCH_TOPIC}, {MIXED_HYSTERESIS}, {HYSTERESIS});

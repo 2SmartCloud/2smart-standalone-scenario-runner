@@ -1,0 +1,5 @@
+scenarios/*.js
+tests/utils/Deferred.js
+tests/utils/TimeoutError.js
+etc/templates
+lib/macros

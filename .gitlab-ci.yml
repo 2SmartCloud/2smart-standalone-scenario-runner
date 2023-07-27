@@ -1,0 +1,102 @@
+image: $DOCKER_REGISTRY_PREFIX/2smart/utils/combined-ci-image:latest
+
+stages:
+  - test
+  - build
+  - push
+  - install_buildx
+  - buildx
+
+before_script:
+  - git clone https://oauth2:$ACCESS_TOKEN@$DOCKER_UTILS_REPO_URL
+  - mv docker-utils/utils.sh docker.sh
+
+services:
+  - name: $DOCKER_REGISTRY_PREFIX/2smart/base-images/docker-dind
+    alias: docker
+    command: [ "--experimental" ]
+  - name: $DOCKER_REGISTRY_PREFIX/2smart/standalone/services/mysql:release
+    alias: mysql
+
+variables:
+  MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+  MYSQL_DATABASE: '2smart_test'
+  MYSQL_USER: '2smart-test'
+  MYSQL_PASSWORD: 'test-password'
+  MODE: 'test'
+  DB_HOSTNAME: 'mysql'
+  DB_TEST_USERNAME: '2smart-test'
+  DB_TEST_PASSWORD: 'test-password'
+  DB_TEST_NAME: '2smart_test'
+  DB_PORT: '3306'
+  MQTT_ROOT_USERNAME: 'root'
+  MQTT_ROOT_PASSWORD: '1'
+  IMAGE_PLATFORMS: linux/amd64,linux/arm/v7
+
+lint:
+  stage: test
+  before_script:
+    - npm ci
+  script:
+    - npm run test:lint
+  only:
+    - 'merge_requests'
+    - 'master'
+
+test:
+  stage: test
+  before_script:
+    # temporary solution (branch with fixed deps)
+    - git clone https://oauth2:$ACCESS_TOKEN@$STANDALONE_BE_REPO_URL
+    - cd be/
+    - npm i
+    - npm run migration-test
+    - cd ../
+    - rm -r be
+    - npm ci
+  script:
+    - npm run test --
+  only:
+    - 'merge_requests'
+    - 'master'
+
+build:
+  stage: build
+  script:
+    - ./docker.sh rundaemon
+    - ./docker.sh login
+    - ./docker.sh build
+  only:
+    - 'merge_requests'
+
+push:
+  stage: push
+  script:
+    - ./docker.sh rundaemon
+    - ./docker.sh login
+    - ./docker.sh build
+    - ./docker.sh push
+  only:
+    - 'master'
+
+install_buildx:
+  stage: install_buildx
+  artifacts:
+    paths:
+      - buildx
+    expire_in: 1 month
+  script:
+    - export DOCKER_BUILDKIT=1
+    - git clone git://github.com/docker/buildx ./docker-buildx
+    - docker build --platform=local -o . ./docker-buildx
+  when: manual
+  allow_failure: true
+
+buildx:
+  stage: buildx
+  script:
+    - ./docker.sh rundaemon
+    - ./docker.sh login
+    - SOURCE_TAG=SMART-1094_add-buildx-gitlab-ci-stage ./docker.sh buildx
+  when: manual
+  allow_failure: true

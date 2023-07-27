@@ -1,0 +1,1 @@
+global.scenario.macros.sunriseSunset({CITY}, {SUNRISE_TOPIC}, {SUNRISE_MESSAGE}, {SUNRISE_OFFSET}, {SUNSET_TOPIC}, {SUNSET_MESSAGE}, {SUNSET_OFFSET});
