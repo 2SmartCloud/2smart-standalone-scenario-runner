@@ -7,7 +7,7 @@
         "cron": "^1.8.2",
         "cron-parser": "^2.15.0",
         "fs-extra": "^8.1.0",
-        "homie-sdk": "github:2SmartCloud/2smart-standalone-homie-sdk",
+        "homie-sdk": "^1.0.0",
         "influx": "^5.6.2",
         "livr": "^2.3.0",
         "lodash": "^4.17.20",
